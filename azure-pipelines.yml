@@ -20,7 +20,7 @@ variables:
   environmentName: 'python-cicd-29539'
 
   # Project root folder. Point to the folder containing manage.py file.
-   projectRoot: $(System.DefaultWorkingDirectory)/Application
+  projectRoot: $(System.DefaultWorkingDirectory)/Application
 
   # Python version: 3.7
   pythonVersion: '3.7'
@@ -85,15 +85,15 @@ stages:
               azureSubscription: $(azureServiceConnectionId)
               appName: $(webAppName)
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-    - script: |
-        pip install selenium
-        pip install pytest
-         pytest tests/functional_tests/ --webAppUrl=https://$(webAppName).azurewebsites.net --junitxml=$(System.DefaultWorkingDirectory)/TestResults/test-results-functional.xml
-  workingDirectory: $(Pipeline.Workspace)
-  displayName: 'Run functional tests'
+- script: |
+    pip install selenium
+    pip install pytest
+    pytest tests/functional_tests/ --webAppUrl=https://$(webAppName).azurewebsites.net --junitxml=$(System.DefaultWorkingDirectory)/TestResults/test-results-functional.xml
+workingDirectory: $(Pipeline.Workspace)
+displayName: 'Run functional tests'
 
 - task: PublishTestResults@2
   inputs:
     searchFolder: $(Pipeline.Workspace)
     testResultsFiles: '**/test-*.xml'
-  displayName: 'Publish test results'
+  displayName: 'Publish test results' 
